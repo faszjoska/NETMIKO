@@ -2,10 +2,14 @@ ena
 conf t
 hostname Roli_SW
 int vl 1
-ip addr 192.168.40.80 255.255.255.0
+ip addr 192.168.40.110 255.255.255.0
 no sh
 exit
 username rolivagyok priv 15 pass kiskacsa
+ip domain name rolivagyok.hu
+crypto key generate rsa
+1024
+ip ssh ver 2
 line vty 0 15
 transport input ssh
 login local
