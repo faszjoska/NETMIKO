@@ -48,7 +48,7 @@ output = ""
 
 kapcsolo = {
     "device_type": "cisco_ios",
-    "host": "192.168.40.18",
+    "host": "192.168.40.80",
     "username": "rolivagyok",
     "password": "kiskacsa",
 }
