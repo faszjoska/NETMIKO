@@ -72,6 +72,7 @@ try:
 
         print(kapcsolat.send_command("sh run | include spanning-tree"))
 
+        #8. f
         try:
             with open("konfig-mentve.txt", "w", encoding="utf-8")as cel:
                 cel.write(kapcsolat.send_command("sh run"))
