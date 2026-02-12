@@ -16,7 +16,7 @@ def vlan(ssh):
     
     ssh.send_config_set(parancsok)
 
-def konzol(ssh):
+""" def konzol(ssh):
     konzolhitelesites = ssh.send_command("show run | section line con")
     parancsok = ["password", "login"]
     konzol1 = konzolhitelesites.split(" ")
@@ -41,8 +41,37 @@ def konzol(ssh):
         print("Nincs password")
     elif hitelesites:
         print("Nincs hitelesítés")
-         
+ """         
 
+def int(ssh):
+    interface = ssh.send_command("show run | include interface")
+    interface = interface.split('\n')
+    int2 = []
+    int3 = []
+    int4 = []
+    int5 = []
+    db = 0
+    db2 = 0
+    
+
+    for i in interface:
+        int2.append(i.split(' ')[1])
+    for i in int2:
+        int3.append(i.split('/')[0])
+    for i in int3:
+        int4.append(i[:-1])
+    for i in int4:
+        if "Ethernet" in i:
+            int5.append(i)
+    for i in int5:
+        if "Fast" in i:
+            db+=1
+        if "Gigabit" in i:
+            db2+=1
+        
+        
+        
+    print(f"FastEthernet port: {db} \nGigabitEthernet port: {db2}")
 
 ##############################################################################
 #                                  PROGRAM                                   #
@@ -54,10 +83,8 @@ try:
         vlan(kapcsolat)
 
         print(kapcsolat.send_command("sh vlan brief"))
-        #2. F
-        konzol(kapcsolat)
-
-
+        
+        int(kapcsolat)
 
 except Exception as ex:
     print("Valami hiba van:", ex)
