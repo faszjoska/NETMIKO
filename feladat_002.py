@@ -20,28 +20,19 @@ def vlan(ssh):
     konzolhitelesites = ssh.send_command("show run | section line con")
     parancsok = ["password", "login"]
     konzol1 = konzolhitelesites.split(" ")
-    konzolOK = False
-    hitelesites = False
-    password = False
+   
 
     print(konzol1)
-    for i in konzol1:
-        if parancsok[0] in i:
-            for j in konzol1:
-                if parancsok[1] == j:
-                    konzolOK = True
-                else:
-                    hitelesites = True
+    if parancsok[0] in konzol1:
+        if parancsok[1] == konzol1:
+            print("konzol ok")
         else:
-            password = True
-    
-    if konzolOK:
-        print("konzol ok")
-    elif password:
+            print("Nincs hitelesítés")
+    else:
         print("Nincs password")
     elif hitelesites:
         print("Nincs hitelesítés")
- """         
+         
 
 def int(ssh):
     interface = ssh.send_command("show run | include interface")
