@@ -13,33 +13,50 @@ try:
     with ConnectHandler(**login_adatok) as kapcsolat:
         
        
-        if len(kapcsolat.send_command("sh run | include enable pass")[-1]) >= 8:
-            pass
-        else:
+        if len(kapcsolat.send_command("sh run | include enable pass").split(' ')[-1]) < 8:
             print("A privilegizált mód jelszó nem 8 karakter") 
             jelszo = input("Egy 8 karakteres jelszo-t adj meg:")
             kapcsolat.send_config_set(f"enable pass {jelszo}")
-        
+        else:
+            print("Enable jelszo OK")
+           
+            
         konzol = kapcsolat.send_command("sh run | section line con")
         konzol = konzol.split("\n")
         print(konzol)
-
-        """         
-        elif kapcsolat.send_command("sh run | section line con") == 'password':
-        len(kapcsolat.send_command()[-1]) < 8
-        print("A konzol jelszó nem 8 karakter") 
-        jelszo_con = input("Egy 8 karakteres konzol jelszo-t adj meg:")
-        kapcsolat.send_config_set(f"enable pass {jelszo_con}")
-        elif len(kapcsolat.send_command("sh run | section line vty")[4]) < 8:
-            print("A vty jelszó nem 8 karakter") 
-            jelszo_vty = input("Egy 8 karakteres VTY jelszo-t adj meg:")
-            kapcsolat.send_config_set(f"enable pass {jelszo_vty}")
-        elif len(kapcsolat.send_command("sh run | section line vty")[8]) < 8:
-            print("A USER jelszó nem 8 karakter") 
-            jelszo_user = input("Egy 8 karakteres USER jelszo-t adj meg:")
-            kapcsolat.send_config_set(f"enable pass {jelszo_user}")
-
-
+        for i in konzol:
+            if i.strip().startswith('password'):
+                if len(i.split(' ')[-1]) < 8:
+                    print("Az konzol jelszó nem megfelelő hosszúságú.")
+                    
+                    ujjelszo2 = input("Adj meg egy legalább 8 karakterből álló jelszót: ")
+                
+                    while len(ujjelszo2) < 8:
+                        ujjelszo2 = input("Adj meg egy legalább 8 karakterből álló jelszót: ")
+                
+                    kapcsolat.send_config_set(["line con 0" , f"password {ujjelszo2}"])
+                    print("A jelszó beéllítása megtörtént.")
+                else:
+                    print("MEgfelelő az konzol jelszó")   
+                
+        vty = kapcsolat.send_command("sh run | section line vty 0 4")
+        vty = vty.split("\n")
+        print(vty)
+        for i in vty:
+            if i.strip().startswith('password'):
+                if len(i.split(' ')[-1]) < 8:
+                    print("Az vty jelszó nem megfelelő hosszúságú.")
+                    
+                    ujjelszo3 = input("Adj meg egy legalább 8 karakterből álló jelszót: ")
+                
+                    while len(ujjelszo3) < 8:
+                        ujjelszo3 = input("Adj meg egy legalább 8 karakterből álló jelszót: ")
+                
+                    kapcsolat.send_config_set(["line vty 0 15" , f"password {ujjelszo3}"])
+                    print("A jelszó beéllítása megtörtént.")
+                else:
+                    print("MEgfelelő az vty jelszó")      
+        '''
         kapcsolat.send_config_set("login block-for 60 attempts 3 within 600")
         
         tftp_ip = input(f"Add meg az IP-t ami a tftp szerverhez tartozik:")
@@ -48,7 +65,7 @@ try:
         output = kapcsolat.send_multiline_timing(["copy run tftp", tftp_ip, fajlnev])
 
         print(output)
-        """
+        '''
 
 
 except Exception as ex:
