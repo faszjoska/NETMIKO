@@ -1,11 +1,12 @@
 from netmiko import ConnectHandler
+from getpass import getpass
 
 
 login_adatok = {
     "device_type": "cisco_ios",
     "host": "192.168.40.110",
     "username": "rolivagyok",
-    "password": "kiskacsa",
+    "password": getpass(),
 }
 
 
