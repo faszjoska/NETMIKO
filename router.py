@@ -35,10 +35,11 @@ try:
         for i in router_id:
             if int(i) <= 255:
                 joe
-            elif i[-1] == ".":
+            else:
                 joe = False
             
             if joe:
+                
                 print(i)
                 
         print(router_id)
