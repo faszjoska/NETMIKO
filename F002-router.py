@@ -12,6 +12,9 @@ login_adatok = {
 try:
     with ConnectHandler(**login_adatok) as kapcsolat:
 
+        
+
+        """
         hostname = input("Add meg az eszkösz nevét:")
         kapcsolat.send_config_set(f"hostname {hostname}")
 
@@ -89,8 +92,8 @@ try:
         subnet_mask_loopback = str(network_loopback.netmask)
 
         kapcsolat.send_config_set([f"int loopback {loopback}", f"ip addr {loopback_ip} {subnet_mask_loopback}", "no sh"])
-
-
+        """
+        
 
 except Exception as ex:
     print("Valami hiba van:", ex)
